@@ -1,4 +1,4 @@
-const CACHE = "forest-ancients-v1";
+const CACHE = "forest-ancients-v5";
 const SHELL = ["./", "./index.html", "./manifest.json"];
 
 self.addEventListener("install", (e) => {
