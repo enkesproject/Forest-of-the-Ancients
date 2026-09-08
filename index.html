@@ -445,8 +445,9 @@ function buildLevel(n){
   P={x:sx,y:sy,w:26,h:34,vx:0,vy:0,onGround:false,jumps:0,coyote:0,jbuf:0,
      face:1,animT:0,st:"idle",hearts:3,invuln:0,hurtT:0,dead:false,
      atkT:0,atkCd:0,hitDone:false,respX:sx,respY:sy};
-  cam.x=Math.max(0,Math.min(P.x-VIEW_W/2,W-VIEW_W));
-  cam.y=Math.max(0,Math.min(P.y-VIEW_H/2,H-VIEW_H));
+  /* FIXED: use WORLD_W / WORLD_H (was bare W / H — the crash) */
+  cam.x=Math.max(0,Math.min(P.x-VIEW_W/2,WORLD_W-VIEW_W));
+  cam.y=Math.max(0,Math.min(P.y-VIEW_H/2,WORLD_H-VIEW_H));
 }
 function startLevel(n){ levelNum=n; buildLevel(n); setState("playing"); startMusic(); }
 function hurt(d){
@@ -886,7 +887,6 @@ function drawTitle(cx,cy){
   ctx.fillStyle=gl; ctx.fillRect(0,0,VIEW_W,VIEW_H);
   ctx.textAlign="center"; ctx.textBaseline="alphabetic";
   const vs=Math.round(VIEW_H*0.115);
-  /* "FOREST" fully visible: baseline well below top */
   const forestY=cy-vs*0.15;
   ctx.font="bold "+vs+"px Georgia";
   ctx.save();
@@ -906,7 +906,6 @@ function drawTitle(cx,cy){
   ctx.fillStyle=tg;
   ctx.fillText("OF THE ANCIENTS",cx,forestY+vs2*1.15);
   ctx.restore();
-  /* small label below the title block (never overlaps) */
   ctx.font="bold "+Math.round(VIEW_H*0.026)+"px Georgia";
   ctx.save();
   ctx.shadowColor="rgba(0,0,0,0.9)"; ctx.shadowBlur=4;
