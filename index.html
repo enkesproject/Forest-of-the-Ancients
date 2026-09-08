@@ -425,7 +425,7 @@ function onewayAt(c,r){
 function buildLevel(n){
   const L=LEVELS[n-1]; lvl={def:L,num:n};
   lvl.W=(L.rows[0]||"").length*TS; lvl.H=L.rows.length*TS;
-  lvl.rows=L.rows;                      /* FIX: rows must live on lvl */
+  lvl.rows=L.rows;                      /* FIX: rows live on lvl */
   mobs=[]; items=[]; parts=[];
   gotKey=false; gateOpen=false; lvTime=0;
   let sx=100, sy=100;
@@ -626,6 +626,17 @@ function shade(hex,f){ f=f||0.72;
   return "rgb("+Math.round(((n>>16)&255)*f)+","+Math.round(((n>>8)&255)*f)+","+Math.round((n&255)*f)+")"; }
 function inView(x,y,w,h){
   return !(x+w<cam.x-40||x>cam.x+VIEW_W+40||y+h<cam.y-40||y>cam.y+VIEW_H+40);
+}
+/* FIX: drawParts restored */
+function drawParts(){
+  for(const p of parts){
+    const a=Math.max(0,p.life/p.ml);
+    ctx.globalAlpha=a; ctx.fillStyle=p.col;
+    ctx.beginPath();
+    ctx.arc(p.x-cam.x,p.y-cam.y,p.sz*a,0,7);
+    ctx.fill();
+  }
+  ctx.globalAlpha=1;
 }
 function drawBG(){
   if(IMG.bg){
@@ -998,4 +1009,4 @@ requestAnimationFrame(function first(n){ lastT=n; requestAnimationFrame(loop); }
 })();
 </script>
 </body>
-      </html>
+  </html>
