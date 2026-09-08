@@ -425,6 +425,7 @@ function onewayAt(c,r){
 function buildLevel(n){
   const L=LEVELS[n-1]; lvl={def:L,num:n};
   lvl.W=(L.rows[0]||"").length*TS; lvl.H=L.rows.length*TS;
+  lvl.rows=L.rows;                      /* FIX: rows must live on lvl */
   mobs=[]; items=[]; parts=[];
   gotKey=false; gateOpen=false; lvTime=0;
   let sx=100, sy=100;
@@ -445,7 +446,6 @@ function buildLevel(n){
   P={x:sx,y:sy,w:26,h:34,vx:0,vy:0,onGround:false,jumps:0,coyote:0,jbuf:0,
      face:1,animT:0,st:"idle",hearts:3,invuln:0,hurtT:0,dead:false,
      atkT:0,atkCd:0,hitDone:false,respX:sx,respY:sy};
-  /* FIXED: use WORLD_W / WORLD_H (was bare W / H — the crash) */
   cam.x=Math.max(0,Math.min(P.x-VIEW_W/2,WORLD_W-VIEW_W));
   cam.y=Math.max(0,Math.min(P.y-VIEW_H/2,WORLD_H-VIEW_H));
 }
@@ -998,4 +998,4 @@ requestAnimationFrame(function first(n){ lastT=n; requestAnimationFrame(loop); }
 })();
 </script>
 </body>
-  </html>
+      </html>
